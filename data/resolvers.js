@@ -57,6 +57,18 @@ const resolvers = {
       return Response.list_project(args.projectId);
     },
   },
+  Mutation: {
+    addAgency(root, args) {
+      return Agency.add({ name: args.name });
+    },
+    editAgency(root, args) {
+      return Agency.edit({ id: args.id, name: args.name });
+    },
+    deleteAgency(root, args) {
+      return Agency.delete({ id: args.id });
+    },
+  },
+
   Agency: {
     clients({ id: agencyId }) {
       return Client.list(agencyId);

@@ -1,4 +1,4 @@
-import fetch from './fetch';
+import { fetch, post, patch, destroy } from './fetch';
 
 // add this somewhere in the middle
 const Agency = {
@@ -15,6 +15,33 @@ const Agency = {
     return fetch(`http://api.crowdlab.io/agencies/`)
       .then(({ data }) => {
         return data.agencies;
+      })
+      .catch((bullshit) => {
+        console.log(bullshit);
+      });
+  },
+  add({ name }) {
+    return post(`http://api.crowdlab.io/agencies/`, { agency: { name } })
+      .then(({ data }) => {
+        return data.agency;
+      })
+      .catch((bullshit) => {
+        console.log(bullshit);
+      });
+  },
+  edit({ id, name }) {
+    return patch(`http://api.crowdlab.io/agencies/${id}`, { agency: { name } })
+      .then(() => {
+        return Agency.find(id);
+      })
+      .catch((bullshit) => {
+        console.log(bullshit);
+      });
+  },
+  delete({ id }) {
+    return destroy(`http://api.crowdlab.io/agencies/${id}`)
+      .then(() => {
+        return null;
       })
       .catch((bullshit) => {
         console.log(bullshit);

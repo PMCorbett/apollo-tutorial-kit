@@ -21,6 +21,12 @@ type Query {
   responses(projectId: Int): [Response] @cacheControl(maxAge: 5)
 }
 
+type Mutation {
+  addAgency(name: String!): Agency
+  editAgency(id: Int!, name: String!): Agency
+  deleteAgency(id: Int!): Agency
+}
+
 type Agency {
   id: Int
   name: String

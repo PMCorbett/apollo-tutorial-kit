@@ -27,4 +27,22 @@ const fetch = (endpoint, options = {}) => {
   });
 };
 
-export default fetch;
+const post = (endpoint, data, options = {}) => {
+  return authorizeRequest(options).then((authorizedOptions) => {
+    return axios.post(endpoint, data, authorizedOptions);
+  });
+};
+
+const patch = (endpoint, data, options = {}) => {
+  return authorizeRequest(options).then((authorizedOptions) => {
+    return axios.patch(endpoint, data, authorizedOptions);
+  });
+};
+
+const destroy = (endpoint, options = {}) => {
+  return authorizeRequest(options).then((authorizedOptions) => {
+    return axios.delete(endpoint, authorizedOptions);
+  });
+};
+
+export { fetch, post, patch, destroy };
