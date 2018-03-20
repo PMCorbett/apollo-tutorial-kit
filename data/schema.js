@@ -3,36 +3,35 @@ import resolvers from './resolvers';
 
 const typeDefs = `
 type Query {
-  testString: String
-  agency(id: Int, name: String): Agency
-  agencies: [Agency]
-  client(id: Int, name: String): Client
-  clients(agencyId: Int): [Client]
-  project(id: Int, name: String): Project
-  projects: [Project]
-  taskList(id: Int): TaskList
-  taskLists(projectId: Int): [TaskList]
-  task(id: Int): Task
-  tasks(projectId: Int): [Task]
-  participant(id: Int): Participant
-  participants(projectId: Int): [Participant]
-  segment(id: Int): Segment
-  segments(projectId: Int): [Segment]
-  response(id: Int): Response
-  responses(projectId: Int): [Response]
+  agency(id: Int, name: String): Agency @cacheControl(maxAge: 5)
+  agencies: [Agency] @cacheControl(maxAge: 5)
+  client(id: Int, name: String): Client @cacheControl(maxAge: 5)
+  clients(agencyId: Int): [Client] @cacheControl(maxAge: 5)
+  project(id: Int, name: String): Project @cacheControl(maxAge: 5)
+  projects: [Project] @cacheControl(maxAge: 5)
+  taskList(id: Int): TaskList @cacheControl(maxAge: 5)
+  taskLists(projectId: Int): [TaskList] @cacheControl(maxAge: 5)
+  task(id: Int): Task @cacheControl(maxAge: 5)
+  tasks(projectId: Int): [Task] @cacheControl(maxAge: 5)
+  participant(id: Int): Participant @cacheControl(maxAge: 5)
+  participants(projectId: Int): [Participant] @cacheControl(maxAge: 5)
+  segment(id: Int): Segment @cacheControl(maxAge: 5)
+  segments(projectId: Int): [Segment] @cacheControl(maxAge: 5)
+  response(id: Int): Response @cacheControl(maxAge: 5)
+  responses(projectId: Int): [Response] @cacheControl(maxAge: 5)
 }
 
 type Agency {
   id: Int
   name: String
-  clients: [Client]
+  clients: [Client] @cacheControl(maxAge: 5)
 }
 
 type Client {
   id: Int
   name: String
-  projects: [Project]
-  agency: Agency
+  projects: [Project] @cacheControl(maxAge: 5)
+  agency: Agency @cacheControl(maxAge: 5)
 }
 
 type Project {
@@ -43,19 +42,19 @@ type Project {
   description: String
   privacy_url: String
   client: Client
-  taskLists: [TaskList]
-  tasks: [Task]
-  participants: [Participant]
-  segments: [Segment]
-  responses: [Response]
+  taskLists: [TaskList] @cacheControl(maxAge: 5)
+  tasks: [Task] @cacheControl(maxAge: 5)
+  participants: [Participant] @cacheControl(maxAge: 5)
+  segments: [Segment] @cacheControl(maxAge: 5)
+  responses: [Response] @cacheControl(maxAge: 5)
 }
 
 type TaskList {
   id: Int
   label: String
   position: Int
-  project: Project
-  tasks: [Task]
+  project: Project @cacheControl(maxAge: 5)
+  tasks: [Task] @cacheControl(maxAge: 5)
 }
 
 type Task {
@@ -80,14 +79,14 @@ type Segment {
   label: String
   limit: Int
   status: String
-  project: Project
+  project: Project @cacheControl(maxAge: 5)
 }
 
 type Response {
   id: Int
   iteration: Int
-  task: Task
-  participant: Participant
+  task: Task @cacheControl(maxAge: 5)
+  participant: Participant @cacheControl(maxAge: 5)
 }
 `;
 

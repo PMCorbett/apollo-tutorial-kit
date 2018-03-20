@@ -10,7 +10,7 @@ const graphQLServer = express();
 graphQLServer.use(
   '/graphql',
   bodyParser.json(),
-  graphqlExpress({ schema, tracing: true, caching: true })
+  graphqlExpress({ schema, tracing: true, cacheControl: true })
 );
 graphQLServer.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
