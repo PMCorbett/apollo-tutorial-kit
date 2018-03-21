@@ -69,6 +69,28 @@ type Task {
   position: Int
   title: String
   type: String
+  questions: [Question]
+}
+
+type Question {
+  options: [Option]
+  stimuli: [Stimulus]
+  tags: [Tag]
+  targets: [Target]
+  task: Task
+}
+
+type Option {
+  id: Int
+}
+type Stimulus {
+  id: Int
+}
+type Tag {
+  id: Int
+}
+type Target {
+  id: Int
 }
 
 type Participant {

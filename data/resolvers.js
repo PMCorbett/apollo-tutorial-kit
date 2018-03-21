@@ -6,6 +6,7 @@ import {
   Task,
   Participant,
   Segment,
+  Question,
   Response,
 } from './connectors';
 
@@ -110,6 +111,11 @@ const resolvers = {
   Response: {
     task(response) {
       return Task.find(response.task_id);
+    },
+  },
+  Task: {
+    questions({ id: taskId }) {
+      return Question.list(taskId);
     },
   },
 };

@@ -12,13 +12,9 @@ const Agency = {
       });
   },
   list() {
-    return fetch(`http://api.crowdlab.io/agencies/`)
-      .then(({ data }) => {
-        return data.agencies;
-      })
-      .catch((bullshit) => {
-        console.log(bullshit);
-      });
+    return fetch(`http://api.crowdlab.io/agencies`).then(({ data }) => {
+      return data.agencies;
+    });
   },
   add({ name }) {
     return post(`http://api.crowdlab.io/agencies/`, { agency: { name } })
@@ -151,6 +147,18 @@ const Task = {
   },
 };
 
+const Question = {
+  list(taskId) {
+    return fetch(`http://api.crowdlab.io/tasks/${taskId}/questions`)
+      .then(({ data }) => {
+        return data.questions;
+      })
+      .catch((bullshit) => {
+        console.log(bullshit);
+      });
+  },
+};
+
 const Participant = {
   find(id) {
     return fetch(`http://api.crowdlab.io/participants/${id}`)
@@ -222,5 +230,6 @@ export {
   Task,
   Participant,
   Segment,
+  Question,
   Response,
 };
