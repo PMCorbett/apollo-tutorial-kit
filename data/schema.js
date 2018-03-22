@@ -32,7 +32,12 @@ type Mutation {
     description: String,
     type: String!,
     stimulusText: String!
-  ): Task
+  ): Forum
+}
+
+type Forum {
+  task: Task,
+  question: Question,
 }
 
 type Agency {

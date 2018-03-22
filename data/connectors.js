@@ -295,7 +295,7 @@ const Forum = {
     { authHeader, tenantHeader },
     { projectId, taskListId, title, description, type, stimulusText }
   ) {
-    post(
+    return post(
       { authHeader, tenantHeader },
       `http://api.crowdlab.io/task_lists/${taskListId}/tasks`,
       {
@@ -323,6 +323,7 @@ const Forum = {
           }
         )
           .then(({ data }) => {
+            const question = data.question;
             const questionId = data.question.id;
 
             return post(
@@ -350,7 +351,7 @@ const Forum = {
                   .then(({ data }) => {
                     const optionId = data.option.id;
 
-                    return task;
+                    return { task, question };
                   })
                   .catch((bullshit) => {
                     console.log(bullshit.response.data);
