@@ -25,6 +25,14 @@ type Mutation {
   addAgency(name: String!): Agency
   editAgency(id: Int!, name: String!): Agency
   deleteAgency(id: Int!): Agency
+  addForum(
+    projectId: Int!,
+    taskListId: Int!,
+    title: String!,
+    description: String,
+    type: String!,
+    stimulusText: String!
+  ): Task
 }
 
 type Agency {
@@ -69,6 +77,7 @@ type Task {
   position: Int
   title: String
   type: String
+  taskList: TaskList
   questions: [Question]
 }
 

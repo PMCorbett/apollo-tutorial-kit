@@ -8,6 +8,7 @@ import {
   Segment,
   Question,
   Response,
+  Forum,
 } from './connectors';
 
 const resolvers = ({ authHeader, tenantHeader }) => ({
@@ -77,6 +78,9 @@ const resolvers = ({ authHeader, tenantHeader }) => ({
     deleteAgency(root, args) {
       return Agency.delete({ authHeader, tenantHeader }, { id: args.id });
     },
+    addForum(root, args) {
+      return Forum.create({ authHeader, tenantHeader }, args);
+    },
   },
 
   Agency: {
@@ -125,6 +129,9 @@ const resolvers = ({ authHeader, tenantHeader }) => ({
   Task: {
     questions({ id: taskId }) {
       return Question.list({ authHeader, tenantHeader }, taskId);
+    },
+    taskList(task) {
+      return TaskList.find({ authHeader, tenantHeader }, task.task_list.id);
     },
   },
 });

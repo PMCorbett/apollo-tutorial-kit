@@ -290,14 +290,95 @@ const Response = {
   },
 };
 
+const Forum = {
+  create(
+    { authHeader, tenantHeader },
+    { projectId, taskListId, title, description, type, stimulusText }
+  ) {
+    post(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/task_lists/${taskListId}/tasks`,
+      {
+        task: {
+          title,
+          description,
+          type: 'discussion',
+          alias: `F${Math.floor(Math.random() * Math.floor(999))}`,
+        },
+      }
+    )
+      .then(({ data }) => {
+        const task = data.task;
+        const taskId = data.task.id;
+
+        return post(
+          { authHeader, tenantHeader },
+          `http://api.crowdlab.io/tasks/${taskId}/questions`,
+          {
+            question: {
+              type,
+              alias: `FQ${Math.floor(Math.random() * Math.floor(999))}`,
+              summary: description,
+            },
+          }
+        )
+          .then(({ data }) => {
+            const questionId = data.question.id;
+
+            return post(
+              { authHeader, tenantHeader },
+              `http://api.crowdlab.io/questions/${questionId}/stimuli`,
+              {
+                stimulus: {
+                  type: 'text',
+                  label: stimulusText,
+                },
+              }
+            )
+              .then(({ data }) => {
+                const stimulusId = data.stimulus.id;
+
+                return post(
+                  { authHeader, tenantHeader },
+                  `http://api.crowdlab.io/questions/${questionId}/options`,
+                  {
+                    option: {
+                      type: 'post',
+                    },
+                  }
+                )
+                  .then(({ data }) => {
+                    const optionId = data.option.id;
+
+                    return task;
+                  })
+                  .catch((bullshit) => {
+                    console.log(bullshit.response.data);
+                  });
+              })
+              .catch((bullshit) => {
+                console.log(bullshit.response.data);
+              });
+          })
+          .catch((bullshit) => {
+            console.log(bullshit.response.data);
+          });
+      })
+      .catch((bullshit) => {
+        console.log(bullshit.response.data);
+      });
+  },
+};
+
 export {
   Agency,
   Client,
-  Project,
-  TaskList,
-  Task,
+  Forum,
   Participant,
-  Segment,
+  Project,
   Question,
   Response,
+  Segment,
+  Task,
+  TaskList,
 };
