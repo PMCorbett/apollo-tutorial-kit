@@ -38,7 +38,7 @@ const resolvers = ({ authHeader, tenantHeader }) => ({
       return Task.find({ authHeader, tenantHeader }, args.id);
     },
     tasks(root, args) {
-      return Task.list({ authHeader, tenantHeader }, args.projectId);
+      return Task.list_project({ authHeader, tenantHeader }, args.projectId);
     },
     participant(root, args) {
       return Participant.find({ authHeader, tenantHeader }, args.id);
