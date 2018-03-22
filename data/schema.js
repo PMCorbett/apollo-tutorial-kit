@@ -118,6 +118,11 @@ type Response {
 }
 `;
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const schema = ({ authHeader, tenantHeader }) => {
+  return makeExecutableSchema({
+    typeDefs,
+    resolvers: resolvers({ authHeader, tenantHeader }),
+  });
+};
 
 export default schema;

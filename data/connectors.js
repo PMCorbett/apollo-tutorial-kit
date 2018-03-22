@@ -2,8 +2,11 @@ import { fetch, post, patch, destroy } from './fetch';
 
 // add this somewhere in the middle
 const Agency = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/agencies/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/agencies/${id}`
+    )
       .then(({ data }) => {
         return data.agency;
       })
@@ -11,13 +14,20 @@ const Agency = {
         console.log(bullshit);
       });
   },
-  list() {
-    return fetch(`http://api.crowdlab.io/agencies`).then(({ data }) => {
+  list({ authHeader, tenantHeader }) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/agencies`
+    ).then(({ data }) => {
       return data.agencies;
     });
   },
-  add({ name }) {
-    return post(`http://api.crowdlab.io/agencies/`, { agency: { name } })
+  add({ authHeader, tenantHeader }, { name }) {
+    return post(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/agencies/`,
+      { agency: { name } }
+    )
       .then(({ data }) => {
         return data.agency;
       })
@@ -25,8 +35,12 @@ const Agency = {
         console.log(bullshit);
       });
   },
-  edit({ id, name }) {
-    return patch(`http://api.crowdlab.io/agencies/${id}`, { agency: { name } })
+  edit({ authHeader, tenantHeader }, { id, name }) {
+    return patch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/agencies/${id}`,
+      { agency: { name } }
+    )
       .then(() => {
         return Agency.find(id);
       })
@@ -34,8 +48,11 @@ const Agency = {
         console.log(bullshit);
       });
   },
-  delete({ id }) {
-    return destroy(`http://api.crowdlab.io/agencies/${id}`)
+  delete({ authHeader, tenantHeader }, { id }) {
+    return destroy(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/agencies/${id}`
+    )
       .then(() => {
         return null;
       })
@@ -46,8 +63,11 @@ const Agency = {
 };
 
 const Client = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/clients/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/clients/${id}`
+    )
       .then(({ data }) => {
         return data.client;
       })
@@ -55,8 +75,11 @@ const Client = {
         console.log(bullshit);
       });
   },
-  list(agencyId) {
-    return fetch(`http://api.crowdlab.io/agencies/${agencyId}/clients`)
+  list({ authHeader, tenantHeader }, agencyId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/agencies/${agencyId}/clients`
+    )
       .then(({ data }) => {
         return data.clients;
       })
@@ -67,8 +90,11 @@ const Client = {
 };
 
 const Project = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/projects/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/projects/${id}`
+    )
       .then(({ data }) => {
         return data.project;
       })
@@ -76,8 +102,11 @@ const Project = {
         console.log(bullshit);
       });
   },
-  list(clientId) {
-    return fetch(`http://api.crowdlab.io/clients/${clientId}/projects`)
+  list({ authHeader, tenantHeader }, clientId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/clients/${clientId}/projects`
+    )
       .then(({ data }) => {
         return data.projects;
       })
@@ -85,8 +114,11 @@ const Project = {
         console.log(bullshit);
       });
   },
-  list_all() {
-    return fetch(`http://api.crowdlab.io/projects`)
+  list_all({ authHeader, tenantHeader }) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/projects`
+    )
       .then(({ data }) => {
         return data.projects;
       })
@@ -97,8 +129,11 @@ const Project = {
 };
 
 const TaskList = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/task_lists/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/task_lists/${id}`
+    )
       .then(({ data }) => {
         return data.task_list;
       })
@@ -106,8 +141,11 @@ const TaskList = {
         console.log(bullshit);
       });
   },
-  list(projectId) {
-    return fetch(`http://api.crowdlab.io/projects/${projectId}/task_lists`)
+  list({ authHeader, tenantHeader }, projectId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/projects/${projectId}/task_lists`
+    )
       .then(({ data }) => {
         return data.task_lists;
       })
@@ -118,8 +156,11 @@ const TaskList = {
 };
 
 const Task = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/tasks/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/tasks/${id}`
+    )
       .then(({ data }) => {
         return data.task;
       })
@@ -127,8 +168,11 @@ const Task = {
         console.log(bullshit);
       });
   },
-  list(taskListId) {
-    return fetch(`http://api.crowdlab.io/task_lists/${taskListId}/tasks`)
+  list({ authHeader, tenantHeader }, taskListId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/task_lists/${taskListId}/tasks`
+    )
       .then(({ data }) => {
         return data.tasks;
       })
@@ -136,8 +180,11 @@ const Task = {
         console.log(bullshit);
       });
   },
-  list_project(projectId) {
-    return fetch(`http://api.crowdlab.io/projects/${projectId}/tasks`)
+  list_project({ authHeader, tenantHeader }, projectId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/projects/${projectId}/tasks`
+    )
       .then(({ data }) => {
         return data.tasks;
       })
@@ -148,8 +195,11 @@ const Task = {
 };
 
 const Question = {
-  list(taskId) {
-    return fetch(`http://api.crowdlab.io/tasks/${taskId}/questions`)
+  list({ authHeader, tenantHeader }, taskId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/tasks/${taskId}/questions`
+    )
       .then(({ data }) => {
         return data.questions;
       })
@@ -160,8 +210,11 @@ const Question = {
 };
 
 const Participant = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/participants/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/participants/${id}`
+    )
       .then(({ data }) => {
         return data.participant;
       })
@@ -169,8 +222,11 @@ const Participant = {
         console.log(bullshit);
       });
   },
-  list_project(projectId) {
-    return fetch(`http://api.crowdlab.io/projects/${projectId}/participants`)
+  list_project({ authHeader, tenantHeader }, projectId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/projects/${projectId}/participants`
+    )
       .then(({ data }) => {
         return data.participants;
       })
@@ -181,8 +237,11 @@ const Participant = {
 };
 
 const Segment = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/segments/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/segments/${id}`
+    )
       .then(({ data }) => {
         return data.segment;
       })
@@ -190,8 +249,11 @@ const Segment = {
         console.log(bullshit);
       });
   },
-  list_project(projectId) {
-    return fetch(`http://api.crowdlab.io/projects/${projectId}/segments`)
+  list_project({ authHeader, tenantHeader }, projectId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/projects/${projectId}/segments`
+    )
       .then(({ data }) => {
         return data.segments;
       })
@@ -202,8 +264,11 @@ const Segment = {
 };
 
 const Response = {
-  find(id) {
-    return fetch(`http://api.crowdlab.io/responses/${id}`)
+  find({ authHeader, tenantHeader }, id) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/responses/${id}`
+    )
       .then(({ data }) => {
         return data.response;
       })
@@ -211,8 +276,11 @@ const Response = {
         console.log(bullshit);
       });
   },
-  list_project(projectId) {
-    return fetch(`http://api.crowdlab.io/projects/${projectId}/responses`)
+  list_project({ authHeader, tenantHeader }, projectId) {
+    return fetch(
+      { authHeader, tenantHeader },
+      `http://api.crowdlab.io/projects/${projectId}/responses`
+    )
       .then(({ data }) => {
         return data.responses;
       })

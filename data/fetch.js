@@ -1,48 +1,42 @@
 import axios from 'axios';
-import secrets from './.secrets.json';
 import * as R from 'ramda';
 
-const fetchToken = () =>
-  axios.post('https://api.crowdlab.io/oauth/token', {
-    client_id: secrets.client_id,
-    client_secret: secrets.client_secret,
-    grant_type: 'password',
-    username: secrets.username,
-    password: secrets.password,
-  });
-
-const authorizeRequest = (options) => {
-  return fetchToken().then(({ data }) => {
-    return R.compose(
-      R.assocPath(['headers', 'X-Crowdlab-Tenant'], 'crowdlab'),
-      R.assocPath(['headers', 'Accept'], 'application/json'),
-      R.assocPath(['headers', 'Authorization'], `Bearer ${data.access_token}`)
-    )(options);
-  });
+const authorizedOptions = ({ authHeader, tenantHeader }, options) => {
+  return R.compose(
+    R.assocPath(['headers', 'X-Crowdlab-Tenant'], tenantHeader),
+    R.assocPath(['headers', 'Accept'], 'application/json'),
+    R.assocPath(['headers', 'Authorization'], authHeader)
+  )(options);
 };
 
-const fetch = (endpoint, options = {}) => {
-  return authorizeRequest(options).then((authorizedOptions) => {
-    return axios.get(endpoint, authorizedOptions);
-  });
+const fetch = ({ authHeader, tenantHeader }, endpoint, options = {}) => {
+  return axios.get(
+    endpoint,
+    authorizedOptions({ authHeader, tenantHeader }, options)
+  );
 };
 
-const post = (endpoint, data, options = {}) => {
-  return authorizeRequest(options).then((authorizedOptions) => {
-    return axios.post(endpoint, data, authorizedOptions);
-  });
+const post = ({ authHeader, tenantHeader }, endpoint, data, options = {}) => {
+  return axios.post(
+    endpoint,
+    data,
+    authorizedOptions({ authHeader, tenantHeader }, options)
+  );
 };
 
-const patch = (endpoint, data, options = {}) => {
-  return authorizeRequest(options).then((authorizedOptions) => {
-    return axios.patch(endpoint, data, authorizedOptions);
-  });
+const patch = ({ authHeader, tenantHeader }, endpoint, data, options = {}) => {
+  return axios.patch(
+    endpoint,
+    data,
+    authorizedOptions({ authHeader, tenantHeader }, options)
+  );
 };
 
-const destroy = (endpoint, options = {}) => {
-  return authorizeRequest(options).then((authorizedOptions) => {
-    return axios.delete(endpoint, authorizedOptions);
-  });
+const destroy = ({ authHeader, tenantHeader }, endpoint, options = {}) => {
+  return axios.delete(
+    endpoint,
+    authorizedOptions({ authHeader, tenantHeader }, options)
+  );
 };
 
 export { fetch, post, patch, destroy };

@@ -10,114 +10,123 @@ import {
   Response,
 } from './connectors';
 
-const resolvers = {
+const resolvers = ({ authHeader, tenantHeader }) => ({
   Query: {
     agency(root, args) {
-      return Agency.find(args.id);
+      return Agency.find({ authHeader, tenantHeader }, args.id);
     },
     agencies(root, args) {
-      return Agency.list();
+      return Agency.list({ authHeader, tenantHeader });
     },
     client(root, args) {
-      return Client.find(args.id);
+      return Client.find({ authHeader, tenantHeader }, args.id);
     },
     project(root, args) {
-      return Project.find(args.id);
+      return Project.find({ authHeader, tenantHeader }, args.id);
     },
     projects() {
-      return Project.list_all();
+      return Project.list_all({ authHeader, tenantHeader });
     },
     taskList(root, args) {
-      return TaskList.find(args.id);
+      return TaskList.find({ authHeader, tenantHeader }, args.id);
     },
     taskLists(root, args) {
-      return TaskList.list(args.projectId);
+      return TaskList.list({ authHeader, tenantHeader }, args.projectId);
     },
     task(root, args) {
-      return Task.find(args.id);
+      return Task.find({ authHeader, tenantHeader }, args.id);
     },
     tasks(root, args) {
-      return Task.list(args.projectId);
+      return Task.list({ authHeader, tenantHeader }, args.projectId);
     },
     participant(root, args) {
-      return Participant.find(args.id);
+      return Participant.find({ authHeader, tenantHeader }, args.id);
     },
     participants(root, args) {
-      return Participant.list_project(args.projectId);
+      return Participant.list_project(
+        { authHeader, tenantHeader },
+        args.projectId
+      );
     },
     segment(root, args) {
-      return Segment.find(args.id);
+      return Segment.find({ authHeader, tenantHeader }, args.id);
     },
     segments(root, args) {
-      return Segment.list_project(args.projectId);
+      return Segment.list_project({ authHeader, tenantHeader }, args.projectId);
     },
     response(root, args) {
-      return Response.find(args.id);
+      return Response.find({ authHeader, tenantHeader }, args.id);
     },
     responses(root, args) {
-      return Response.list_project(args.projectId);
+      return Response.list_project(
+        { authHeader, tenantHeader },
+        args.projectId
+      );
     },
   },
   Mutation: {
     addAgency(root, args) {
-      return Agency.add({ name: args.name });
+      return Agency.add({ authHeader, tenantHeader }, { name: args.name });
     },
     editAgency(root, args) {
-      return Agency.edit({ id: args.id, name: args.name });
+      return Agency.edit(
+        { authHeader, tenantHeader },
+        { id: args.id, name: args.name }
+      );
     },
     deleteAgency(root, args) {
-      return Agency.delete({ id: args.id });
+      return Agency.delete({ authHeader, tenantHeader }, { id: args.id });
     },
   },
 
   Agency: {
     clients({ id: agencyId }) {
-      return Client.list(agencyId);
+      return Client.list({ authHeader, tenantHeader }, agencyId);
     },
   },
   Client: {
     agency(client) {
-      return Agency.find(client.agency.id);
+      return Agency.find({ authHeader, tenantHeader }, client.agency.id);
     },
     projects({ id: clientId }) {
-      return Project.list(clientId);
+      return Project.list({ authHeader, tenantHeader }, clientId);
     },
   },
   Project: {
     client(project) {
-      return Client.find(project.client.id);
+      return Client.find({ authHeader, tenantHeader }, project.client.id);
     },
     taskLists({ id: projectId }) {
-      return TaskList.list(projectId);
+      return TaskList.list({ authHeader, tenantHeader }, projectId);
     },
     tasks({ id: projectId }) {
-      return Task.list_project(projectId);
+      return Task.list_project({ authHeader, tenantHeader }, projectId);
     },
     participants({ id: projectId }) {
-      return Participant.list_project(projectId);
+      return Participant.list_project({ authHeader, tenantHeader }, projectId);
     },
     segments({ id: projectId }) {
-      return Segment.list_project(projectId);
+      return Segment.list_project({ authHeader, tenantHeader }, projectId);
     },
     responses({ id: projectId }) {
-      return Response.list_project(projectId);
+      return Response.list_project({ authHeader, tenantHeader }, projectId);
     },
   },
   TaskList: {
     project(taskList) {
-      return Project.find(taskList.project.id);
+      return Project.find({ authHeader, tenantHeader }, taskList.project.id);
     },
   },
   Response: {
     task(response) {
-      return Task.find(response.task_id);
+      return Task.find({ authHeader, tenantHeader }, response.task_id);
     },
   },
   Task: {
     questions({ id: taskId }) {
-      return Question.list(taskId);
+      return Question.list({ authHeader, tenantHeader }, taskId);
     },
   },
-};
+});
 
 export default resolvers;
